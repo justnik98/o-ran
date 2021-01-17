@@ -42,8 +42,14 @@ int main() {
             c.run();
         }
     }
-    catch(std::exception e){
+    catch (std::runtime_error &e) {
         cerr << e.what();
+    }
+    catch (std::out_of_range &e) {
+        cerr << e.what();
+    }
+    catch (...) {
+        cerr << "smth goes wrong\n";
     }
     return 0;
 }
