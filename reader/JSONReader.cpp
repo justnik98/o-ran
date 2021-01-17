@@ -8,6 +8,19 @@ using namespace std;
 
 JSONReader::JSONReader(const string &filename) : filename(filename) {
     srand(time(NULL));
+    fstream in;
+    in.open(filename);
+    uint32_t counter = 0;
+    string str = "";
+    string quote = "";
+    while (getline(in, str)) {
+        if (str.find("value") != string::npos) {
+            auto posEnd = str.rfind('\"');
+            auto posBegin = str.rfind('\"', posEnd - 1);
+            quote = str.substr(posBegin, posEnd - posBegin + 1);
+            quotes[counter++] = quote;
+        }
+    }
 }
 
 string JSONReader::getLabel(uint32_t id) const {
@@ -15,24 +28,9 @@ string JSONReader::getLabel(uint32_t id) const {
 }
 
 string JSONReader::getQuote() const {
-    std::fstream in;
-    in.open(filename);
-    uint32_t num = 1 + (rand() % 100);
-    uint32_t pos = 0;
-    uint32_t pos2 = 0;
-    uint32_t counter = 0;
-    string str = "";
-    while (counter != num) {
-        getline(in, str);
-        if (str.find("value") != string::npos) {
-            counter++;
-        }
-    }
-    pos = str.find("\"", 11);
-    pos2 = str.find(',');
-    in.close();
-
-    return str.substr(pos, pos2 - pos);
+    uint32_t num = rand() % quotes.size();
+    string res = quotes.at(num);
+    return res;
 }
 
 

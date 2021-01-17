@@ -31,7 +31,7 @@ void Controller::run() const {
     redisCommand(c, "SET cmd start");
     if (c == NULL || c->err) {
         if (c) {
-            cerr << "Connection error: " << c->errstr << endl;
+            cerr << "Connection error on "<< url << ":" << port << ": "<< c->errstr << endl;
             clog << "Connection error: " << c->errstr << endl;
             redisFree(c);
         } else {
@@ -46,14 +46,14 @@ void Controller::run() const {
             freeReplyObject(reply);
             break;
         }
-        if (!strcmp(reply->str, "getquote")){
+        if (!strcmp(reply->str, "getquote")) {
             string res = r.getQuote();
             w.write(res);
             redisCommand(c, "SET %s %s", "msg", res.c_str());
             redisCommand(c, "SET cmd ready");
         }
         freeReplyObject(reply);
-        nanosleep(&time,NULL);
+        nanosleep(&time, NULL);
     }
     redisFree(c);
     clog << "Finish" << endl;
@@ -63,3 +63,16 @@ void Controller::run() const {
 
 Controller::Controller(IWriter &w, IReader &r, const string &url, uint32_t port) : w(w), r(r), url(url), port(port) {}
 
+Controller config(map<std::string, std::string> &params) {
+    if (!params.contains("filename")) {
+        throw std::invalid_argument("No file to read.\n Write filename = yourfile in config file.\n");
+    }
+    if (params["output"] == "http") {
+        if (!params.contains("ip")) {
+            params["ip"] = "127.0.0.1";
+        }
+        if (!params.contains("port")) {
+            params["port"] = "8080";
+        }
+    }
+}

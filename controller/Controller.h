@@ -5,8 +5,9 @@
 #ifndef O_RAN_CONTROLLER_H
 #define O_RAN_CONTROLLER_H
 
-#include <string>
+#include <map>
 #include <optional>
+#include <string>
 #include "../writer/IWriter.h"
 #include "../reader/IReader.h"
 
@@ -24,6 +25,8 @@ public:
 
     void run() const;
 };
+
+Controller config(std::map<std::string, std::string> & params);
 
 
 #endif //O_RAN_CONTROLLER_H

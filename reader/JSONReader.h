@@ -6,13 +6,17 @@
 #define O_RAN_JSONREADER_H
 
 #include "IReader.h"
-#include <fstream>
+
 #include <cstdio>
+#include <fstream>
 #include <iostream>
+#include <map>
 
 class JSONReader : public IReader {
 private:
     std::string filename;
+
+    std::map<uint32_t, std::string> quotes;
 public:
     JSONReader(const std::string &filename);
 
