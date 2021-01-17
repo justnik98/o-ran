@@ -1,1 +1,8 @@
-cmake-build-*/
+/cmake-build-*/*
+/CMakeFiles/*
+/Testing/*
+CmakeCache*
+cmake_install*
+log.txt
+nano.save
+o_ran*
