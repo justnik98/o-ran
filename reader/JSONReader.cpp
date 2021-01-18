@@ -7,12 +7,12 @@
 using namespace std;
 
 JSONReader::JSONReader(const string &filename) : filename(filename) {
-    srand(time(NULL));
+    srand(time(nullptr));
     fstream in;
     in.open(filename);
     uint32_t counter = 0;
-    string str = "";
-    string quote = "";
+    string str;
+    string quote;
     while (getline(in, str)) {
         if (str.find("value") != string::npos) {
             auto posEnd = str.rfind('\"');

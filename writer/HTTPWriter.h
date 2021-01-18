@@ -5,10 +5,11 @@
 #ifndef O_RAN_HTTPWRITER_H
 #define O_RAN_HTTPWRITER_H
 
-#include "IWriter.h"
+
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
 #include <boost/asio/buffer.hpp>
+#include "IWriter.h"
 
 class HTTPWriter : public IWriter {
 private:
@@ -21,9 +22,9 @@ public:
 
     void write(const std::string &str) const override;
 
-    bool isReachable() const;
+    [[nodiscard]] bool isReachable() const;
 
-    virtual ~HTTPWriter() {};
+    ~HTTPWriter() override = default;
 
 };
 

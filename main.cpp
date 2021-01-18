@@ -1,5 +1,3 @@
-#include <algorithm>
-#include <fstream>
 #include <iostream>
 #include <map>
 #include <stdexcept>
@@ -15,21 +13,7 @@ using namespace std;
 int main() {
     try {
         map<string, string> params;
-        ifstream cfg("o-ran.cfg");
-        if (cfg.is_open()) {
-            string line;
-            while (getline(cfg, line)) {
-                line.erase(remove_if(line.begin(), line.end(), [](unsigned char x) { return std::isspace(x); }),
-                           line.end());
-                if (line[0] == '#' || line.empty()) continue;
-                auto delimiterPos = line.find('=');
-                auto name = line.substr(0, delimiterPos);
-                auto value = line.substr(delimiterPos + 1);
-                params.insert_or_assign(name, value);
-            }
-        } else {
-            cerr << "Couldn't open config file for reading. \n";
-        }
+        config(params);
         if (params["output"] == "http") {
             HTTPWriter w(params["ip"], params["port"]);
             JSONReader r(params["filename"]);

@@ -17,16 +17,15 @@ private:
     IReader &r;
     std::string url;
     uint32_t port = 6379;
-    const timespec time{0, 500000L};
 public:
-    Controller(IWriter &w, IReader &r, const std::string &url);
+    [[maybe_unused]] Controller(IWriter &w, IReader &r, const std::string &url);
 
     Controller(IWriter &w, IReader &r, const std::string &url, uint32_t port);
 
     void run() const;
 };
 
-Controller config(std::map<std::string, std::string> & params);
+void config(std::map<std::string, std::string> & params);
 
 
 #endif //O_RAN_CONTROLLER_H

@@ -14,7 +14,7 @@ public:
     virtual std::string getQuote() const = 0;
     //virtual uint32_t getLabelsNum()const = 0;
 
-    virtual ~IReader() {};
+    virtual ~IReader() = default;
 };
 
 
