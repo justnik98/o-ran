@@ -6,8 +6,7 @@
 
 using namespace std;
 
-JSONReader::JSONReader(const string &filename) : filename(filename) {
-    srand(time(nullptr));
+JSONReader::JSONReader(const string &filename) {
     fstream in;
     in.open(filename);
     uint32_t counter = 0;
@@ -27,8 +26,8 @@ string JSONReader::getLabel(uint32_t id) const {
     return string("AAA");
 }
 
-string JSONReader::getQuote() const {
-    uint32_t num = rand() % quotes.size();
+string JSONReader::getQuote() {
+    uint32_t num = r.rand() % quotes.size();
     string res = quotes.at(num);
     return res;
 }

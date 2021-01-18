@@ -9,9 +9,9 @@
 
 class IReader {
 public:
-    virtual std::string getLabel(uint32_t id) const = 0;
+    [[maybe_unused]] virtual std::string getLabel(uint32_t id) const = 0;
 
-    virtual std::string getQuote() const = 0;
+    virtual std::string getQuote() = 0;
     //virtual uint32_t getLabelsNum()const = 0;
 
     virtual ~IReader() = default;

@@ -48,10 +48,15 @@ else ()
     endif ()
 endif ()
 
+add_library(libs STATIC IMPORTED)
+set_target_properties(libs PROPERTIES
+        IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/libs/librandom.a"
+        )
 
-add_executable(o_ran main.cpp writer/IWriter.h reader/IReader.h writer/ConsoleWriter.cpp writer/ConsoleWriter.h writer/HTTPWriter.cpp writer/HTTPWriter.h reader/JSONReader.cpp reader/JSONReader.h controller/Controller.cpp controller/Controller.h)
+add_executable(o_ran main.cpp writer/IWriter.h reader/IReader.h writer/ConsoleWriter.cpp writer/ConsoleWriter.h writer/HTTPWriter.cpp writer/HTTPWriter.h reader/JSONReader.cpp reader/JSONReader.h controller/Controller.cpp controller/Controller.h libs/Random.h)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-target_link_libraries(o_ran PRIVATE Threads::Threads)
+target_link_libraries(o_ran PRIVATE Threads::Threads libs)
 target_link_libraries(o_ran PUBLIC ${HIREDIS_LIB})
+

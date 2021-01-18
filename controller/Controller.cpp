@@ -51,7 +51,6 @@ void Controller::run() const {
             string res = r.getQuote();
             res += '\n';
             thread([&, res](){w.write(res);}).detach();
-            //w.write(res);
             redisCommand(c, "SET %s %s", "msg", res.c_str());
             redisCommand(c, "SET cmd ready");
         }

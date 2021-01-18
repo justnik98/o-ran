@@ -12,19 +12,22 @@
 #include <iostream>
 #include <map>
 
+#include "../libs/Random.h"
+
 class JSONReader : public IReader {
 private:
-    std::string filename;
 
     std::map<uint32_t, std::string> quotes;
+
+    Random r;
 public:
-    JSONReader(const std::string &filename);
+    explicit JSONReader(const std::string &filename);
 
-    std::string getLabel(uint32_t id) const override;
+    [[nodiscard]] std::string getLabel(uint32_t id) const override;
 
-    std::string getQuote() const override;
+    [[nodiscard]] std::string getQuote() override;
 
-    virtual ~JSONReader() {};
+    ~JSONReader() override = default;;
 };
 
 
