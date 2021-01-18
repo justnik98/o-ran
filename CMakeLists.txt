@@ -3,6 +3,7 @@ project(o_ran)
 
 set(CMAKE_CXX_STANDARD 20)
 
+set(CMAKE_CXX_COMPILER g++-9)
 if (HIREDIS)
     set(HAVE_HIREDIS 1 CACHE INTERNAL HAVE_HIREDIS)
     include_directories(${HIREDIS}/include)
