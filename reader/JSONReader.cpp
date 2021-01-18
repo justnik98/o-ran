@@ -8,7 +8,7 @@ using namespace std;
 
 JSONReader::JSONReader(const string &filename) {
     fstream in;
-    in.open(filename);
+    in.open("../" + filename);
     uint32_t counter = 0;
     string str;
     string quote;
@@ -27,8 +27,8 @@ string JSONReader::getLabel(uint32_t id) const {
 }
 
 string JSONReader::getQuote() {
-    uint32_t num = r.rand() % quotes.size();
-    string res = quotes.at(num);
+    auto ind = r.rand() % quotes.size();
+    string res = quotes.at(ind);
     return res;
 }
 

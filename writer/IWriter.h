@@ -14,7 +14,7 @@ class IWriter {
 public:
     virtual void write(const std::string &str) const = 0;
 
-    virtual ~IWriter() = default;;
+    virtual ~IWriter() = default;
 
     IWriter &operator=(const IWriter &) = delete;
 };

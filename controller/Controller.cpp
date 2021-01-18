@@ -52,7 +52,6 @@ void Controller::run() const {
             res += '\n';
             thread([&, res](){w.write(res);}).detach();
             redisCommand(c, "SET %s %s", "msg", res.c_str());
-            redisCommand(c, "SET cmd ready");
         }
         freeReplyObject(reply);
         this_thread::sleep_for(chrono::microseconds (500));
@@ -67,7 +66,7 @@ Controller::Controller(IWriter &w, IReader &r, const string &url, uint32_t port)
 
 void config(map<std::string, std::string> &params) {
 
-    ifstream cfg("o-ran.cfg");
+    ifstream cfg("../o-ran.cfg");
     if (cfg.is_open()) {
         string line;
         while (getline(cfg, line)) {

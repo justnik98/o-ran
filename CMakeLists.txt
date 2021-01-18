@@ -58,5 +58,4 @@ add_executable(o_ran main.cpp writer/IWriter.h reader/IReader.h writer/ConsoleWr
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 target_link_libraries(o_ran PRIVATE Threads::Threads libs)
-target_link_libraries(o_ran PUBLIC ${HIREDIS_LIB})
-
+target_link_libraries(o_ran PUBLIC "${HIREDIS_LIB}/libhiredis.a")
