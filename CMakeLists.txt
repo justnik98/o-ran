@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIERD ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+target_compile_features(&{TARGET_NAME} PRIVATE cxx_std_20)
+
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
