@@ -4,7 +4,7 @@ project(o_ran)
 set(CONAN_DISABLE_CHECK_COMPILER)
 set(CMAKE_CXX_COMPILER_VERSION 9)
 
-target_compile_features(&{TARGET_NAME} PRIVATE cxx_std_2a)
+target_compile_features(o_run PUBLIC -std=c++2a)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
