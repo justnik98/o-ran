@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.17)
 project(o_ran)
 
+set(CMAKE_CXX_COMPILER_VERSION "g++-9"
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "-std=c++2a")
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
