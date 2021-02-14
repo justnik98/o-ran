@@ -2,17 +2,18 @@
 // Created by justnik on 02.12.2020.
 //
 
-#include <iostream>
-#include <fstream>
-#include <unistd.h>
-#include <hiredis/hiredis.h>
 #include <cstring>
 #include <ctime>
+#include <fstream>
+#include <hiredis/hiredis.h>
+#include <iostream>
+#include <thread>
+
 #include "Controller.h"
 
 using namespace std;
 
-Controller::Controller(IWriter &w, IReader &r, const std::string &url) : w(w), r(r), url(url) {}
+[[maybe_unused]] Controller::Controller(IWriter &w, IReader &r, const std::string &url) : w(w), r(r), url(url) {}
 
 void Controller::run() const {
     /*Setting for logfile */
@@ -29,9 +30,9 @@ void Controller::run() const {
     struct timeval timeout = {1, 500000}; // 1.5 seconds
     c = redisConnectWithTimeout(url.c_str(), port, timeout);
     redisCommand(c, "SET cmd start");
-    if (c == NULL || c->err) {
+    if (c == nullptr || c->err) {
         if (c) {
-            cerr << "Connection error on "<< url << ":" << port << ": "<< c->errstr << endl;
+            cerr << "Connection error on " << url << ":" << port << ": " << c->errstr << endl;
             clog << "Connection error: " << c->errstr << endl;
             redisFree(c);
         } else {
@@ -48,12 +49,12 @@ void Controller::run() const {
         }
         if (!strcmp(reply->str, "getquote")) {
             string res = r.getQuote();
-            w.write(res);
+            res += '\n';
+            thread([&, res](){w.write(res);}).detach();
             redisCommand(c, "SET %s %s", "msg", res.c_str());
-            redisCommand(c, "SET cmd ready");
         }
         freeReplyObject(reply);
-        nanosleep(&time, NULL);
+        this_thread::sleep_for(chrono::microseconds (500));
     }
     redisFree(c);
     clog << "Finish" << endl;
@@ -63,7 +64,23 @@ void Controller::run() const {
 
 Controller::Controller(IWriter &w, IReader &r, const string &url, uint32_t port) : w(w), r(r), url(url), port(port) {}
 
-Controller config(map<std::string, std::string> &params) {
+void config(map<std::string, std::string> &params) {
+
+    ifstream cfg("../o-ran.cfg");
+    if (cfg.is_open()) {
+        string line;
+        while (getline(cfg, line)) {
+            line.erase(remove_if(line.begin(), line.end(), [](unsigned char x) { return std::isspace(x); }),
+                       line.end());
+            if (line[0] == '#' || line.empty()) continue;
+            auto delimiterPos = line.find('=');
+            auto name = line.substr(0, delimiterPos);
+            auto value = line.substr(delimiterPos + 1);
+            params.insert_or_assign(name, value);
+        }
+    } else {
+        cerr << "Couldn't open config file for reading. \n";
+    }
     if (!params.contains("filename")) {
         throw std::invalid_argument("No file to read.\n Write filename = yourfile in config file.\n");
     }

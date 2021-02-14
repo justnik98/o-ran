@@ -1,7 +1,8 @@
 /cmake-build-*/*
 /CMakeFiles/*
 /Testing/*
-CmakeCache*
+CMakeCache*
+.*
 cmake_install*
 log.txt
 nano.save

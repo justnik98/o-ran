@@ -6,13 +6,12 @@
 
 using namespace std;
 
-JSONReader::JSONReader(const string &filename) : filename(filename) {
-    srand(time(NULL));
+JSONReader::JSONReader(const string &filename) {
     fstream in;
-    in.open(filename);
+    in.open("../" + filename);
     uint32_t counter = 0;
-    string str = "";
-    string quote = "";
+    string str;
+    string quote;
     while (getline(in, str)) {
         if (str.find("value") != string::npos) {
             auto posEnd = str.rfind('\"');
@@ -27,9 +26,9 @@ string JSONReader::getLabel(uint32_t id) const {
     return string("AAA");
 }
 
-string JSONReader::getQuote() const {
-    uint32_t num = rand() % quotes.size();
-    string res = quotes.at(num);
+string JSONReader::getQuote() {
+    auto ind = r.rand() % quotes.size();
+    string res = quotes.at(ind);
     return res;
 }
 
